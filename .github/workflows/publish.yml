@@ -20,10 +20,12 @@ jobs:
       - name: Install vsce
         run: npm install -g @vscode/vsce
 
-      - name: Generate CalVer version
+      - name: Generate version
         run: |
-          # Version format: YYYY.M.D.BUILD
-          DATE_PREFIX=$(date +'%Y.%-m.%-d')
+          # VS Code requires SemVer (3 parts): MAJOR.MINOR.PATCH
+          # We use: YEAR.MMDD.BUILD (e.g., 2026.318.0)
+          YEAR=$(date +'%Y')
+          MMDD=$(date +'%-m%d')
 
           # Query marketplace for latest version to determine build number
           LATEST_BUILD=$(node -e "
@@ -46,10 +48,10 @@ jobs:
                   const exts = r.results?.[0]?.extensions || [];
                   if (!exts.length) { console.log(0); return; }
                   const vers = exts[0].versions?.map(v => v.version) || [];
-                  const todayPrefix = '${DATE_PREFIX}';
+                  const todayPrefix = '${YEAR}.${MMDD}.';
                   const todayVers = vers.filter(v => v.startsWith(todayPrefix));
                   if (!todayVers.length) { console.log(0); return; }
-                  const builds = todayVers.map(v => parseInt(v.split('.')[3] || 0));
+                  const builds = todayVers.map(v => parseInt(v.split('.')[2] || 0));
                   console.log(Math.max(...builds) + 1);
                 } catch(e) { console.log(0); }
               });
@@ -59,7 +61,7 @@ jobs:
             req.end();
           ")
 
-          VERSION="${DATE_PREFIX}.${LATEST_BUILD}"
+          VERSION="${YEAR}.${MMDD}.${LATEST_BUILD}"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "Publishing version $VERSION"
 
