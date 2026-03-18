@@ -9,6 +9,8 @@ on:
       - 'CHANGELOG.md'
       - 'icon.png'
       - '.github/workflows/publish.yml'
+  repository_dispatch:
+    types: [mcp-updated]
   workflow_dispatch:
 
 jobs:
@@ -48,6 +50,7 @@ jobs:
         run: vsce publish --no-git-tag-version -p ${{ secrets.VSCE_PAT }}
 
       - name: Publish to Open VSX Registry
+        if: ${{ secrets.OVSX_PAT != '' }}
         run: |
           npm install -g ovsx
-          ovsx publish *.vsix -p ${{ secrets.OVSX_PAT }} || echo "Open VSX publish skipped (no token)"
+          ovsx publish *.vsix -p ${{ secrets.OVSX_PAT }}
