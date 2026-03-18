@@ -1,0 +1,168 @@
+{
+  "name": "acedatacloud-mcp",
+  "displayName": "Ace Data Cloud MCP Servers",
+  "description": "AI-powered MCP servers for music generation (Suno), image generation (Midjourney, Flux, Seedream, NanoBanana), video generation (Luma, Sora, Veo, Seedance), web search (SERP), and URL shortening — all via Ace Data Cloud API.",
+  "version": "0.1.0",
+  "publisher": "acedatacloud",
+  "icon": "icon.png",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.99.0"
+  },
+  "categories": [
+    "AI",
+    "Chat"
+  ],
+  "keywords": [
+    "mcp",
+    "model context protocol",
+    "ai",
+    "copilot",
+    "suno",
+    "midjourney",
+    "flux",
+    "luma",
+    "sora",
+    "veo",
+    "seedream",
+    "seedance",
+    "nanobanana",
+    "serp",
+    "music generation",
+    "image generation",
+    "video generation",
+    "web search"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AceDataCloud/VSCodeMCP"
+  },
+  "homepage": "https://platform.acedata.cloud",
+  "bugs": {
+    "url": "https://github.com/AceDataCloud/VSCodeMCP/issues"
+  },
+  "contributes": {
+    "configuration": {
+      "title": "Ace Data Cloud",
+      "properties": {
+        "acedatacloud.apiToken": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Your Ace Data Cloud API token. Get one at [platform.acedata.cloud](https://platform.acedata.cloud)"
+        }
+      }
+    },
+    "mcpServers": {
+      "acedatacloud-suno": {
+        "type": "stdio",
+        "command": "uvx",
+        "args": [
+          "mcp-suno"
+        ],
+        "env": {
+          "ACEDATACLOUD_API_TOKEN": "${config:acedatacloud.apiToken}"
+        }
+      },
+      "acedatacloud-midjourney": {
+        "type": "stdio",
+        "command": "uvx",
+        "args": [
+          "mcp-midjourney"
+        ],
+        "env": {
+          "ACEDATACLOUD_API_TOKEN": "${config:acedatacloud.apiToken}"
+        }
+      },
+      "acedatacloud-flux": {
+        "type": "stdio",
+        "command": "uvx",
+        "args": [
+          "mcp-flux-pro"
+        ],
+        "env": {
+          "ACEDATACLOUD_API_TOKEN": "${config:acedatacloud.apiToken}"
+        }
+      },
+      "acedatacloud-seedream": {
+        "type": "stdio",
+        "command": "uvx",
+        "args": [
+          "mcp-seedream-pro"
+        ],
+        "env": {
+          "ACEDATACLOUD_API_TOKEN": "${config:acedatacloud.apiToken}"
+        }
+      },
+      "acedatacloud-nanobanana": {
+        "type": "stdio",
+        "command": "uvx",
+        "args": [
+          "mcp-nanobanana-pro"
+        ],
+        "env": {
+          "ACEDATACLOUD_API_TOKEN": "${config:acedatacloud.apiToken}"
+        }
+      },
+      "acedatacloud-luma": {
+        "type": "stdio",
+        "command": "uvx",
+        "args": [
+          "mcp-luma"
+        ],
+        "env": {
+          "ACEDATACLOUD_API_TOKEN": "${config:acedatacloud.apiToken}"
+        }
+      },
+      "acedatacloud-sora": {
+        "type": "stdio",
+        "command": "uvx",
+        "args": [
+          "mcp-sora"
+        ],
+        "env": {
+          "ACEDATACLOUD_API_TOKEN": "${config:acedatacloud.apiToken}"
+        }
+      },
+      "acedatacloud-veo": {
+        "type": "stdio",
+        "command": "uvx",
+        "args": [
+          "mcp-veo"
+        ],
+        "env": {
+          "ACEDATACLOUD_API_TOKEN": "${config:acedatacloud.apiToken}"
+        }
+      },
+      "acedatacloud-seedance": {
+        "type": "stdio",
+        "command": "uvx",
+        "args": [
+          "mcp-seedance"
+        ],
+        "env": {
+          "ACEDATACLOUD_API_TOKEN": "${config:acedatacloud.apiToken}"
+        }
+      },
+      "acedatacloud-serp": {
+        "type": "stdio",
+        "command": "uvx",
+        "args": [
+          "mcp-serp"
+        ],
+        "env": {
+          "ACEDATACLOUD_API_TOKEN": "${config:acedatacloud.apiToken}"
+        }
+      },
+      "acedatacloud-shorturl": {
+        "type": "stdio",
+        "command": "uvx",
+        "args": [
+          "mcp-shorturl"
+        ],
+        "env": {
+          "ACEDATACLOUD_API_TOKEN": "${config:acedatacloud.apiToken}"
+        }
+      }
+    }
+  }
+}
