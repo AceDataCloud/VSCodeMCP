@@ -31,7 +31,7 @@ jobs:
           LATEST_BUILD=$(node -e "
             const https = require('https');
             const data = JSON.stringify({
-              filters: [{criteria: [{filterType: 7, value: 'acedatacloud.acedatacloud-mcp'}]}],
+              filters: [{criteria: [{filterType: 7, value: 'GermeyTechnology.acedatacloud-mcp'}]}],
               flags: 914
             });
             const req = https.request({
