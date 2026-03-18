@@ -3,12 +3,6 @@ name: Publish VS Code Extension
 on:
   push:
     branches: [main]
-    paths:
-      - 'package.json'
-      - 'README.md'
-      - 'CHANGELOG.md'
-      - 'icon.png'
-      - '.github/workflows/publish.yml'
   repository_dispatch:
     types: [mcp-updated]
   workflow_dispatch:
@@ -26,22 +20,56 @@ jobs:
       - name: Install vsce
         run: npm install -g @vscode/vsce
 
-      - name: Auto-increment version
+      - name: Generate CalVer version
         run: |
-          CURRENT=$(node -p "require('./package.json').version")
-          MAJOR=$(echo $CURRENT | cut -d. -f1)
-          MINOR=$(echo $CURRENT | cut -d. -f2)
-          PATCH=$(echo $CURRENT | cut -d. -f3)
-          NEW_PATCH=$((PATCH + 1))
-          NEW_VERSION="$MAJOR.$MINOR.$NEW_PATCH"
+          # Version format: YYYY.M.D.BUILD
+          DATE_PREFIX=$(date +'%Y.%-m.%-d')
+
+          # Query marketplace for latest version to determine build number
+          LATEST_BUILD=$(node -e "
+            const https = require('https');
+            const data = JSON.stringify({
+              filters: [{criteria: [{filterType: 7, value: 'acedatacloud.acedatacloud-mcp'}]}],
+              flags: 914
+            });
+            const req = https.request({
+              hostname: 'marketplace.visualstudio.com',
+              path: '/_apis/public/gallery/extensionquery',
+              method: 'POST',
+              headers: {'Content-Type':'application/json','Accept':'application/json;api-version=3.0-preview.1'}
+            }, res => {
+              let body = '';
+              res.on('data', d => body += d);
+              res.on('end', () => {
+                try {
+                  const r = JSON.parse(body);
+                  const exts = r.results?.[0]?.extensions || [];
+                  if (!exts.length) { console.log(0); return; }
+                  const vers = exts[0].versions?.map(v => v.version) || [];
+                  const todayPrefix = '${DATE_PREFIX}';
+                  const todayVers = vers.filter(v => v.startsWith(todayPrefix));
+                  if (!todayVers.length) { console.log(0); return; }
+                  const builds = todayVers.map(v => parseInt(v.split('.')[3] || 0));
+                  console.log(Math.max(...builds) + 1);
+                } catch(e) { console.log(0); }
+              });
+            });
+            req.on('error', () => console.log(0));
+            req.write(data);
+            req.end();
+          ")
+
+          VERSION="${DATE_PREFIX}.${LATEST_BUILD}"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Publishing version $VERSION"
+
+          # Update package.json
           node -e "
             const fs = require('fs');
             const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-            pkg.version = '$NEW_VERSION';
+            pkg.version = '$VERSION';
             fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
           "
-          echo "VERSION=$NEW_VERSION" >> $GITHUB_ENV
-          echo "Publishing version $NEW_VERSION"
 
       - name: Package extension
         run: vsce package --no-git-tag-version
@@ -50,7 +78,9 @@ jobs:
         run: vsce publish --no-git-tag-version -p ${{ secrets.VSCE_PAT }}
 
       - name: Publish to Open VSX Registry
-        if: ${{ secrets.OVSX_PAT != '' }}
+        if: vars.OVSX_ENABLED == 'true'
+        env:
+          OVSX_PAT: ${{ secrets.OVSX_PAT }}
         run: |
           npm install -g ovsx
-          ovsx publish *.vsix -p ${{ secrets.OVSX_PAT }}
+          ovsx publish *.vsix -p "$OVSX_PAT"
