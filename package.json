@@ -1,9 +1,9 @@
 {
   "name": "acedatacloud-mcp",
-  "displayName": "Ace Data Cloud MCP Servers",
+  "displayName": "AceDataCloud MCP",
   "description": "AI-powered MCP servers for music generation (Suno), image generation (Midjourney, Flux, Seedream, NanoBanana), video generation (Luma, Sora, Veo, Seedance), web search (SERP), and URL shortening — all via Ace Data Cloud API.",
   "version": "0.1.0",
-  "publisher": "GermeyTechnology",
+  "publisher": "acedatacloud",
   "icon": "icon.png",
   "license": "MIT",
   "engines": {
