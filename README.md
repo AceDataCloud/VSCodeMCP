@@ -7,44 +7,107 @@ Bring **11 AI-powered MCP servers** into VS Code Copilot Chat — generate music
 
 ## Included MCP Servers
 
-### 🎵 Music Generation
+| Server | Package | Hosted Endpoint | Description |
+|--------|---------|-----------------|-------------|
+| **Suno** | `mcp-suno` | `https://suno.mcp.acedata.cloud/mcp` | AI music generation, extend, cover, remix |
+| **Midjourney** | `mcp-midjourney` | `https://midjourney.mcp.acedata.cloud/mcp` | AI image generation with Midjourney |
+| **Flux** | `mcp-flux-pro` | `https://flux.mcp.acedata.cloud/mcp` | Image generation with Flux models |
+| **Seedream** | `mcp-seedream-pro` | `https://seedream.mcp.acedata.cloud/mcp` | Image generation with ByteDance Seedream |
+| **NanoBanana** | `mcp-nanobanana-pro` | `https://nanobanana.mcp.acedata.cloud/mcp` | Image generation with Gemini NanoBanana |
+| **Luma** | `mcp-luma` | `https://luma.mcp.acedata.cloud/mcp` | Video generation with Luma Dream Machine |
+| **Sora** | `mcp-sora` | `https://sora.mcp.acedata.cloud/mcp` | Video generation with OpenAI Sora |
+| **Veo** | `mcp-veo` | `https://veo.mcp.acedata.cloud/mcp` | Video generation with Google Veo |
+| **Seedance** | `mcp-seedance` | `https://seedance.mcp.acedata.cloud/mcp` | Video generation with ByteDance Seedance |
+| **SERP** | `mcp-serp` | `https://serp.mcp.acedata.cloud/mcp` | Google search (web, images, news, videos) |
+| **ShortURL** | `mcp-shorturl` | `https://shorturl.mcp.acedata.cloud/mcp` | URL shortening and management |
 
-| Server | Package | Description |
-|--------|---------|-------------|
-| **Suno** | `mcp-suno` | Generate, extend, cover, remix, and remaster AI music with 20+ tools |
+## Get Your API Token
 
-### 🎨 Image Generation
+1. Sign up at [AceDataCloud Platform](https://platform.acedata.cloud)
+2. Go to any [API documentation page](https://platform.acedata.cloud/documents) and click **"Acquire"**
+3. Copy the token for use below
 
-| Server | Package | Description |
-|--------|---------|-------------|
-| **Midjourney** | `mcp-midjourney` | Generate, transform, blend, edit images with Midjourney v5/v6/v7/v8 |
-| **Flux** | `mcp-flux-pro` | Generate and edit images with Black Forest Labs Flux models |
-| **Seedream** | `mcp-seedream-pro` | Generate and edit images with ByteDance Seedream |
-| **NanoBanana** | `mcp-nanobanana-pro` | Generate and edit images with Gemini-based NanoBanana |
+## Option A: Use Hosted MCP Servers (Recommended)
 
-### 🎬 Video Generation
+AceDataCloud provides **cloud-hosted MCP servers** — no local installation, no Python, no dependencies. Just add the endpoint URL and your API token.
 
-| Server | Package | Description |
-|--------|---------|-------------|
-| **Luma** | `mcp-luma` | Generate, extend videos with Luma Dream Machine |
-| **Sora** | `mcp-sora` | Generate videos with OpenAI Sora |
-| **Veo** | `mcp-veo` | Generate videos with Google Veo |
-| **Seedance** | `mcp-seedance` | Generate videos with ByteDance Seedance |
+Add to your VS Code MCP config (`.vscode/mcp.json`):
 
-### 🔍 Search & Utilities
+```json
+{
+  "servers": {
+    "suno": {
+      "type": "streamable-http",
+      "url": "https://suno.mcp.acedata.cloud/mcp",
+      "headers": { "Authorization": "Bearer YOUR_API_TOKEN" }
+    },
+    "midjourney": {
+      "type": "streamable-http",
+      "url": "https://midjourney.mcp.acedata.cloud/mcp",
+      "headers": { "Authorization": "Bearer YOUR_API_TOKEN" }
+    },
+    "flux": {
+      "type": "streamable-http",
+      "url": "https://flux.mcp.acedata.cloud/mcp",
+      "headers": { "Authorization": "Bearer YOUR_API_TOKEN" }
+    },
+    "luma": {
+      "type": "streamable-http",
+      "url": "https://luma.mcp.acedata.cloud/mcp",
+      "headers": { "Authorization": "Bearer YOUR_API_TOKEN" }
+    },
+    "sora": {
+      "type": "streamable-http",
+      "url": "https://sora.mcp.acedata.cloud/mcp",
+      "headers": { "Authorization": "Bearer YOUR_API_TOKEN" }
+    },
+    "veo": {
+      "type": "streamable-http",
+      "url": "https://veo.mcp.acedata.cloud/mcp",
+      "headers": { "Authorization": "Bearer YOUR_API_TOKEN" }
+    },
+    "seedream": {
+      "type": "streamable-http",
+      "url": "https://seedream.mcp.acedata.cloud/mcp",
+      "headers": { "Authorization": "Bearer YOUR_API_TOKEN" }
+    },
+    "seedance": {
+      "type": "streamable-http",
+      "url": "https://seedance.mcp.acedata.cloud/mcp",
+      "headers": { "Authorization": "Bearer YOUR_API_TOKEN" }
+    },
+    "nanobanana": {
+      "type": "streamable-http",
+      "url": "https://nanobanana.mcp.acedata.cloud/mcp",
+      "headers": { "Authorization": "Bearer YOUR_API_TOKEN" }
+    },
+    "serp": {
+      "type": "streamable-http",
+      "url": "https://serp.mcp.acedata.cloud/mcp",
+      "headers": { "Authorization": "Bearer YOUR_API_TOKEN" }
+    },
+    "shorturl": {
+      "type": "streamable-http",
+      "url": "https://shorturl.mcp.acedata.cloud/mcp",
+      "headers": { "Authorization": "Bearer YOUR_API_TOKEN" }
+    }
+  }
+}
+```
 
-| Server | Package | Description |
-|--------|---------|-------------|
-| **SERP** | `mcp-serp` | Google search (web, images, news, videos, places, maps) |
-| **ShortURL** | `mcp-shorturl` | Create and manage short URLs |
+Pick only the servers you need, or add all 11.
 
-## Requirements
+## Option B: Use This Extension (Local)
+
+This extension runs MCP servers locally via `uv` + Python. Useful if you prefer local execution.
+
+### Requirements
 
 - **VS Code 1.99+** (MCP server support)
 - **Python 3.10+** with [`uv`](https://docs.astral.sh/uv/getting-started/installation/) installed
 - **Ace Data Cloud API Token** — get one free at [platform.acedata.cloud](https://platform.acedata.cloud)
 
-## Setup
+### Setup
 
 1. Install this extension
 2. Open VS Code Settings (`Cmd+,` or `Ctrl+,`)
