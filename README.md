@@ -3,7 +3,7 @@
 [![VS Code Marketplace](https://img.shields.io/visual-studio-marketplace/v/acedatacloud.acedatacloud-mcp)](https://marketplace.visualstudio.com/items?itemName=acedatacloud.acedatacloud-mcp)
 [![Installs](https://img.shields.io/visual-studio-marketplace/i/acedatacloud.acedatacloud-mcp)](https://marketplace.visualstudio.com/items?itemName=acedatacloud.acedatacloud-mcp)
 
-Bring **11 AI-powered MCP servers** into VS Code Copilot Chat — generate music, images, videos, search the web, and more, all directly from your editor.
+Bring **15 AI-powered MCP servers** into VS Code Copilot Chat — generate music, images, videos, search the web, and more, all directly from your editor.
 
 ## Included MCP Servers
 
@@ -95,7 +95,7 @@ Add to your VS Code MCP config (`.vscode/mcp.json`):
 }
 ```
 
-Pick only the servers you need, or add all 11.
+Pick only the servers you need, or add all 15.
 
 ## Option B: Use This Extension (Local)
 
