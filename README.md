@@ -7,5 +7,5 @@ from the [AceDataCloud publisher](https://marketplace.visualstudio.com/publisher
 The maintained MCP servers and individual extensions live in
 [AceDataCloud/MCPs](https://github.com/AceDataCloud/MCPs).
 
-This repository no longer publishes extension updates. Its manual retirement
-workflow removes the legacy extension from the marketplace.
+The extension was removed from VS Code Marketplace on 2026-10-04.
+This repository no longer publishes extension updates or accepts release dispatches.
