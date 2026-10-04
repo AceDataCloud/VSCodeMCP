@@ -2,7 +2,7 @@ const expected = process.argv[2];
 if (!expected) throw new Error("Expected Marketplace version is required");
 const endpoint = "https://marketplace.visualstudio.com/_apis/public/gallery/extensionquery";
 const payload = {
-  filters: [{ criteria: [{ filterType: 7, value: "acedatacloud.acedatacloud-mcp" }] }],
+  filters: [{ criteria: [{ filterType: 7, value: "acedatacloud.mcp-toolbox" }] }],
   flags: 914,
 };
 (async () => {
@@ -16,9 +16,9 @@ const payload = {
     if (!response.ok) throw new Error(`Marketplace query returned ${response.status}`);
     const data = await response.json();
     const extensions = data.results?.[0]?.extensions || [];
-    const extension = extensions.find((item) => item.extensionName === "acedatacloud-mcp" && item.publisher?.publisherName === "acedatacloud");
+    const extension = extensions.find((item) => item.extensionName === "mcp-toolbox" && item.publisher?.publisherName === "acedatacloud");
     if (extension?.versions?.some((item) => item.version === expected)) {
-      console.log(`Marketplace verified: acedatacloud.acedatacloud-mcp ${expected}`);
+      console.log(`Marketplace verified: acedatacloud.mcp-toolbox ${expected}`);
       return;
     }
     if (attempt < 19) await new Promise((resolve) => setTimeout(resolve, 15000));

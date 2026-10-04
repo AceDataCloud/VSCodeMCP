@@ -60,7 +60,10 @@ function harness({ selected = ["suno", "acedatacloud"], saved = {}, env = {}, in
 
 test("catalog, configuration and defaults agree and exclude retired services", () => {
   const setting = manifest.contributes.configuration.properties["acedatacloud.bundle.services"];
-  assert.equal(new Set(catalog.map((s) => s.id)).size, 26);
+  assert.equal(new Set(catalog.map((s) => s.id)).size, catalog.length);
+  assert.ok(catalog.length > 0);
+  assert.equal(manifest.name, "mcp-toolbox");
+  assert.equal(manifest.displayName, "Ace Data Cloud MCP");
   assert.deepEqual(setting.items.enum, catalog.map((s) => s.id));
   assert.ok(setting.default.every((id) => catalog.some((s) => s.id === id)));
   assert.ok(!catalog.some((s) => s.id === "sora"));

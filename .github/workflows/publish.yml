@@ -44,11 +44,11 @@ jobs:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
         run: |
           test -n "$VSCE_PAT"
-          npx vsce publish --packagePath "acedatacloud-mcp-${VERSION}.vsix"
+          npx vsce publish --packagePath "mcp-toolbox-${VERSION}.vsix"
       - name: Verify public Marketplace version
         run: node scripts/verify-marketplace.js "$VERSION"
       - name: Publish to Open VSX Registry
         if: vars.OVSX_ENABLED == 'true'
         env:
           OVSX_PAT: ${{ secrets.OVSX_PAT }}
-        run: npx --yes ovsx publish "acedatacloud-mcp-${VERSION}.vsix" --pat "$OVSX_PAT"
+        run: npx --yes ovsx publish "mcp-toolbox-${VERSION}.vsix" --pat "$OVSX_PAT"

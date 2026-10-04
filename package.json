@@ -1,6 +1,6 @@
 {
-  "name": "acedatacloud-mcp",
-  "displayName": "AceDataCloud MCP",
+  "name": "mcp-toolbox",
+  "displayName": "Ace Data Cloud MCP",
   "description": "One MCP toolbox for AI chat, images, video, music, search and account management. Choose from 26 hosted Ace Data Cloud services.",
   "version": "2026.1004.0",
   "publisher": "acedatacloud",
@@ -48,7 +48,7 @@
     "mcpServerDefinitionProviders": [
       {
         "id": "acedatacloud.bundle",
-        "label": "Ace Data Cloud MCP Toolbox"
+        "label": "Ace Data Cloud MCP"
       }
     ],
     "commands": [
@@ -79,7 +79,7 @@
       }
     ],
     "configuration": {
-      "title": "Ace Data Cloud MCP Toolbox",
+      "title": "Ace Data Cloud MCP",
       "properties": {
         "acedatacloud.bundle.services": {
           "type": "array",
@@ -144,16 +144,16 @@
             ]
           },
           "default": [
-            "suno",
-            "midjourney",
             "flux",
-            "seedream",
-            "nanobanana",
             "luma",
-            "veo",
+            "midjourney",
+            "nanobanana",
             "seedance",
+            "seedream",
             "serp",
-            "shorturl"
+            "shorturl",
+            "suno",
+            "veo"
           ],
           "scope": "window",
           "markdownDescription": "Hosted MCP services available to Copilot Chat. Use **Ace Data Cloud: Choose MCP Services** to change this list. Account management uses a separate platform token."
