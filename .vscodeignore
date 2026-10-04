@@ -1,4 +1,7 @@
-.github
+.github/**
 .gitignore
 *.vsix
-node_modules
+node_modules/**
+test/**
+scripts/**
+package-lock.json

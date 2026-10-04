@@ -1,13 +1,13 @@
 {
-  "name": "acedatacloud-mcp",
-  "displayName": "AceDataCloud MCP",
-  "description": "AI-powered MCP servers for music generation (Suno), image generation (Midjourney, Flux, Seedream, NanoBanana), video generation (Luma, Sora, Veo, Seedance), web search (SERP), and URL shortening — all via Ace Data Cloud API.",
-  "version": "0.1.0",
+  "name": "mcp-toolbox",
+  "displayName": "Ace Data Cloud MCP",
+  "description": "One MCP toolbox for AI chat, images, video, music, search and account management. Choose from 26 hosted Ace Data Cloud services.",
+  "version": "2026.1004.0",
   "publisher": "acedatacloud",
   "icon": "icon.png",
   "license": "MIT",
   "engines": {
-    "vscode": "^1.99.0"
+    "vscode": "^1.101.0"
   },
   "categories": [
     "AI",
@@ -22,7 +22,6 @@
     "midjourney",
     "flux",
     "luma",
-    "sora",
     "veo",
     "seedream",
     "seedance",
@@ -31,7 +30,11 @@
     "music generation",
     "image generation",
     "video generation",
-    "web search"
+    "web search",
+    "kling",
+    "wan",
+    "qwen",
+    "mcp bundle"
   ],
   "repository": {
     "type": "git",
@@ -42,127 +45,130 @@
     "url": "https://github.com/AceDataCloud/VSCodeMCP/issues"
   },
   "contributes": {
-    "configuration": {
-      "title": "Ace Data Cloud",
-      "properties": {
-        "acedatacloud.apiToken": {
-          "type": "string",
-          "default": "",
-          "markdownDescription": "Your Ace Data Cloud API token. Get one at [platform.acedata.cloud](https://platform.acedata.cloud)"
-        }
+    "mcpServerDefinitionProviders": [
+      {
+        "id": "acedatacloud.bundle",
+        "label": "Ace Data Cloud MCP"
       }
-    },
-    "mcpServers": {
-      "acedatacloud-suno": {
-        "type": "stdio",
-        "command": "uvx",
-        "args": [
-          "mcp-suno"
-        ],
-        "env": {
-          "ACEDATACLOUD_API_TOKEN": "${config:acedatacloud.apiToken}"
-        }
+    ],
+    "commands": [
+      {
+        "command": "acedatacloud.bundle.selectServices",
+        "title": "Choose MCP Services",
+        "category": "Ace Data Cloud"
       },
-      "acedatacloud-midjourney": {
-        "type": "stdio",
-        "command": "uvx",
-        "args": [
-          "mcp-midjourney"
-        ],
-        "env": {
-          "ACEDATACLOUD_API_TOKEN": "${config:acedatacloud.apiToken}"
-        }
+      {
+        "command": "acedatacloud.bundle.setApiKey",
+        "title": "Set Shared API Key",
+        "category": "Ace Data Cloud"
       },
-      "acedatacloud-flux": {
-        "type": "stdio",
-        "command": "uvx",
-        "args": [
-          "mcp-flux-pro"
-        ],
-        "env": {
-          "ACEDATACLOUD_API_TOKEN": "${config:acedatacloud.apiToken}"
-        }
+      {
+        "command": "acedatacloud.bundle.setServiceApiKey",
+        "title": "Set Service API Key",
+        "category": "Ace Data Cloud"
       },
-      "acedatacloud-seedream": {
-        "type": "stdio",
-        "command": "uvx",
-        "args": [
-          "mcp-seedream-pro"
-        ],
-        "env": {
-          "ACEDATACLOUD_API_TOKEN": "${config:acedatacloud.apiToken}"
-        }
+      {
+        "command": "acedatacloud.bundle.setPlatformToken",
+        "title": "Set Account Platform Token",
+        "category": "Ace Data Cloud"
       },
-      "acedatacloud-nanobanana": {
-        "type": "stdio",
-        "command": "uvx",
-        "args": [
-          "mcp-nanobanana-pro"
-        ],
-        "env": {
-          "ACEDATACLOUD_API_TOKEN": "${config:acedatacloud.apiToken}"
-        }
-      },
-      "acedatacloud-luma": {
-        "type": "stdio",
-        "command": "uvx",
-        "args": [
-          "mcp-luma"
-        ],
-        "env": {
-          "ACEDATACLOUD_API_TOKEN": "${config:acedatacloud.apiToken}"
-        }
-      },
-      "acedatacloud-sora": {
-        "type": "stdio",
-        "command": "uvx",
-        "args": [
-          "mcp-sora"
-        ],
-        "env": {
-          "ACEDATACLOUD_API_TOKEN": "${config:acedatacloud.apiToken}"
-        }
-      },
-      "acedatacloud-veo": {
-        "type": "stdio",
-        "command": "uvx",
-        "args": [
-          "mcp-veo"
-        ],
-        "env": {
-          "ACEDATACLOUD_API_TOKEN": "${config:acedatacloud.apiToken}"
-        }
-      },
-      "acedatacloud-seedance": {
-        "type": "stdio",
-        "command": "uvx",
-        "args": [
-          "mcp-seedance"
-        ],
-        "env": {
-          "ACEDATACLOUD_API_TOKEN": "${config:acedatacloud.apiToken}"
-        }
-      },
-      "acedatacloud-serp": {
-        "type": "stdio",
-        "command": "uvx",
-        "args": [
-          "mcp-serp"
-        ],
-        "env": {
-          "ACEDATACLOUD_API_TOKEN": "${config:acedatacloud.apiToken}"
-        }
-      },
-      "acedatacloud-shorturl": {
-        "type": "stdio",
-        "command": "uvx",
-        "args": [
-          "mcp-shorturl"
-        ],
-        "env": {
-          "ACEDATACLOUD_API_TOKEN": "${config:acedatacloud.apiToken}"
+      {
+        "command": "acedatacloud.bundle.clearCredentials",
+        "title": "Clear Saved Credentials",
+        "category": "Ace Data Cloud"
+      }
+    ],
+    "configuration": {
+      "title": "Ace Data Cloud MCP",
+      "properties": {
+        "acedatacloud.bundle.services": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "acedatacloud",
+              "aichat",
+              "face",
+              "fish",
+              "flux",
+              "glm",
+              "grok",
+              "hailuo",
+              "happyhorse",
+              "kling",
+              "luma",
+              "maestro",
+              "midjourney",
+              "minimax",
+              "nanobanana",
+              "openai",
+              "producer",
+              "qwen-image",
+              "seedance",
+              "seedream",
+              "serp",
+              "shorturl",
+              "suno",
+              "veo",
+              "wan",
+              "webextrator"
+            ],
+            "enumDescriptions": [
+              "Ace Data Cloud Account",
+              "AI Chat",
+              "Face Transform",
+              "Fish Audio",
+              "Flux",
+              "GLM",
+              "Grok Imagine",
+              "Hailuo",
+              "HappyHorse",
+              "Kling",
+              "Luma",
+              "Maestro",
+              "Midjourney",
+              "MiniMax",
+              "NanoBanana",
+              "OpenAI",
+              "Producer",
+              "Qwen Image",
+              "Seedance",
+              "Seedream",
+              "Google Search",
+              "Short URL",
+              "Suno",
+              "Veo",
+              "Wan",
+              "Web Extractor"
+            ]
+          },
+          "default": [
+            "flux",
+            "luma",
+            "midjourney",
+            "nanobanana",
+            "seedance",
+            "seedream",
+            "serp",
+            "shorturl",
+            "suno",
+            "veo"
+          ],
+          "scope": "window",
+          "markdownDescription": "Hosted MCP services available to Copilot Chat. Use **Ace Data Cloud: Choose MCP Services** to change this list. Account management uses a separate platform token."
         }
       }
     }
+  },
+  "main": "./extension.js",
+  "activationEvents": [],
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "check": "node --check extension.js && node --check scripts/verify-marketplace.js",
+    "package": "vsce package --no-dependencies"
+  },
+  "devDependencies": {
+    "@vscode/vsce": "^4.0.0"
   }
 }

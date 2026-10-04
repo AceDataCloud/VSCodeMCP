@@ -1,308 +1,121 @@
-# Ace Data Cloud MCP Servers
+# Ace Data Cloud MCP
 
-[![VS Code Marketplace](https://img.shields.io/visual-studio-marketplace/v/acedatacloud.acedatacloud-mcp)](https://marketplace.visualstudio.com/items?itemName=acedatacloud.acedatacloud-mcp)
-[![Installs](https://img.shields.io/visual-studio-marketplace/i/acedatacloud.acedatacloud-mcp)](https://marketplace.visualstudio.com/items?itemName=acedatacloud.acedatacloud-mcp)
+One VS Code extension for AI chat, images, video, music, search, web extraction,
+and account management. Choose from **26 hosted MCP services** and use them in
+Copilot Chat without installing Python or running local servers.
 
-Bring **11 AI-powered MCP servers** into VS Code Copilot Chat — generate music, images, videos, search the web, and more, all directly from your editor.
+## Get started
 
-## Included MCP Servers
+1. Install **Ace Data Cloud MCP** from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=acedatacloud.mcp-toolbox).
+2. Open the Command Palette and run **Ace Data Cloud: Choose MCP Services**.
+3. Run **Ace Data Cloud: Set Shared API Key**, using an API key with access to your selected services from the
+   [Ace Data Cloud console](https://platform.acedata.cloud/console/credentials).
+4. Open Copilot Chat in Agent mode, enable the tools you need, and ask a question.
 
-| Server | Package | Hosted Endpoint | Description |
-|--------|---------|-----------------|-------------|
-| **Suno** | `mcp-suno` | `https://suno.mcp.acedata.cloud/mcp` | AI music generation, extend, cover, remix |
-| **Midjourney** | `mcp-midjourney` | `https://midjourney.mcp.acedata.cloud/mcp` | AI image generation with Midjourney |
-| **Flux** | `mcp-flux-pro` | `https://flux.mcp.acedata.cloud/mcp` | Image generation with Flux models |
-| **Seedream** | `mcp-seedream-pro` | `https://seedream.mcp.acedata.cloud/mcp` | Image generation with ByteDance Seedream |
-| **NanoBanana** | `mcp-nanobanana-pro` | `https://nanobanana.mcp.acedata.cloud/mcp` | Image generation with Gemini NanoBanana |
-| **Luma** | `mcp-luma` | `https://luma.mcp.acedata.cloud/mcp` | Video generation with Luma Dream Machine |
-| **Sora** | `mcp-sora` | `https://sora.mcp.acedata.cloud/mcp` | Video generation with OpenAI Sora |
-| **Veo** | `mcp-veo` | `https://veo.mcp.acedata.cloud/mcp` | Video generation with Google Veo |
-| **Seedance** | `mcp-seedance` | `https://seedance.mcp.acedata.cloud/mcp` | Video generation with ByteDance Seedance |
-| **SERP** | `mcp-serp` | `https://serp.mcp.acedata.cloud/mcp` | Google search (web, images, news, videos) |
-| **ShortURL** | `mcp-shorturl` | `https://shorturl.mcp.acedata.cloud/mcp` | URL shortening and management |
+VS Code **1.101 or newer** and a chat client with MCP tool support are required.
+VS Code asks you to trust an MCP server before starting it. API requests use your
+Ace Data Cloud account and are billed according to the selected service.
 
-## Get Your API Token
+The default selection includes common creation and search services. Add or
+remove services at any time with the picker. The extension exposes server definitions; VS Code controls
+when each selected server starts.
 
-1. Sign up at [AceDataCloud Platform](https://platform.acedata.cloud)
-2. Go to any [API documentation page](https://platform.acedata.cloud/documents) and click **"Acquire"**
-3. Copy the token for use below
+## Services
 
-## Option A: Use Hosted MCP Servers (Recommended)
+<!-- BEGIN GENERATED SERVICES -->
+| Service | Credential |
+| --- | --- |
+| Ace Data Cloud Account | Platform token |
+| AI Chat | API key |
+| Face Transform | API key |
+| Fish Audio | API key |
+| Flux | API key |
+| GLM | API key |
+| Grok Imagine | API key |
+| Hailuo | API key |
+| HappyHorse | API key |
+| Kling | API key |
+| Luma | API key |
+| Maestro | API key |
+| Midjourney | API key |
+| MiniMax | API key |
+| NanoBanana | API key |
+| OpenAI | API key |
+| Producer | API key |
+| Qwen Image | API key |
+| Seedance | API key |
+| Seedream | API key |
+| Google Search | API key |
+| Short URL | API key |
+| Suno | API key |
+| Veo | API key |
+| Wan | API key |
+| Web Extractor | API key |
+<!-- END GENERATED SERVICES -->
 
-AceDataCloud provides **cloud-hosted MCP servers** — no local installation, no Python, no dependencies. Just add the endpoint URL and your API token.
+Account management is optional and requires its own platform token from
+[Platform tokens](https://platform.acedata.cloud/console/platform-tokens).
+Run **Ace Data Cloud: Set Account Platform Token** to save it. API keys are never
+sent to the account-management server, and platform tokens are never sent to
+API-service servers.
 
-Add to your VS Code MCP config (`.vscode/mcp.json`):
+## Credentials and configuration
+
+Credentials are stored in VS Code **SecretStorage**, not in `settings.json`.
+Use **Set Service API Key** when one service needs a different key. Saved service
+keys take precedence over the shared key. Environment variables
+`ACEDATACLOUD_API_TOKEN` and `ACEDATACLOUD_PLATFORM_TOKEN` are used only when the
+corresponding saved credential is absent.
+
+**Clear Saved Credentials** removes keys saved by this extension. It does not
+change environment variables. To stop exposing a service, deselect it with
+**Choose MCP Services**. To stop all services, select none.
+
+You can also set `acedatacloud.bundle.services` in VS Code settings:
 
 ```json
 {
-  "servers": {
-    "suno": {
-      "type": "streamable-http",
-      "url": "https://suno.mcp.acedata.cloud/mcp",
-      "headers": { "Authorization": "Bearer YOUR_API_TOKEN" }
-    },
-    "midjourney": {
-      "type": "streamable-http",
-      "url": "https://midjourney.mcp.acedata.cloud/mcp",
-      "headers": { "Authorization": "Bearer YOUR_API_TOKEN" }
-    },
-    "flux": {
-      "type": "streamable-http",
-      "url": "https://flux.mcp.acedata.cloud/mcp",
-      "headers": { "Authorization": "Bearer YOUR_API_TOKEN" }
-    },
-    "luma": {
-      "type": "streamable-http",
-      "url": "https://luma.mcp.acedata.cloud/mcp",
-      "headers": { "Authorization": "Bearer YOUR_API_TOKEN" }
-    },
-    "sora": {
-      "type": "streamable-http",
-      "url": "https://sora.mcp.acedata.cloud/mcp",
-      "headers": { "Authorization": "Bearer YOUR_API_TOKEN" }
-    },
-    "veo": {
-      "type": "streamable-http",
-      "url": "https://veo.mcp.acedata.cloud/mcp",
-      "headers": { "Authorization": "Bearer YOUR_API_TOKEN" }
-    },
-    "seedream": {
-      "type": "streamable-http",
-      "url": "https://seedream.mcp.acedata.cloud/mcp",
-      "headers": { "Authorization": "Bearer YOUR_API_TOKEN" }
-    },
-    "seedance": {
-      "type": "streamable-http",
-      "url": "https://seedance.mcp.acedata.cloud/mcp",
-      "headers": { "Authorization": "Bearer YOUR_API_TOKEN" }
-    },
-    "nanobanana": {
-      "type": "streamable-http",
-      "url": "https://nanobanana.mcp.acedata.cloud/mcp",
-      "headers": { "Authorization": "Bearer YOUR_API_TOKEN" }
-    },
-    "serp": {
-      "type": "streamable-http",
-      "url": "https://serp.mcp.acedata.cloud/mcp",
-      "headers": { "Authorization": "Bearer YOUR_API_TOKEN" }
-    },
-    "shorturl": {
-      "type": "streamable-http",
-      "url": "https://shorturl.mcp.acedata.cloud/mcp",
-      "headers": { "Authorization": "Bearer YOUR_API_TOKEN" }
-    }
-  }
+  "acedatacloud.bundle.services": ["suno", "kling", "qwen-image", "serp"]
 }
 ```
 
-Pick only the servers you need, or add all 11.
+The new extension ID is `acedatacloud.mcp-toolbox`; the deleted March bundle
+ID cannot be reused. Install this extension explicitly, save your key using the command above
+and remove the old `acedatacloud.apiToken` plaintext setting. It is no longer read.
+The retired Sora service is no longer included. Individual Ace Data Cloud service
+extensions remain available; disable duplicate entries if you also use this bundle.
 
-## Option B: Use This Extension (Local)
+## Examples
 
-This extension runs MCP servers locally via `uv` + Python. Useful if you prefer local execution.
+- “Use Suno to create a short instrumental track for a product demo.”
+- “Use Qwen Image to make a watercolor illustration of a mountain village.”
+- “Use Google Search to find the latest developments in battery recycling.”
 
-### Requirements
+For generation tasks, continue tracking the task until it completes before
+using the output.
 
-- **VS Code 1.99+** (MCP server support)
-- **Python 3.10+** with [`uv`](https://docs.astral.sh/uv/getting-started/installation/) installed
-- **Ace Data Cloud API Token** — get one free at [platform.acedata.cloud](https://platform.acedata.cloud)
+## Development
 
-### Setup
-
-1. Install this extension
-2. Open VS Code Settings (`Cmd+,` or `Ctrl+,`)
-3. Search for `acedatacloud.apiToken`
-4. Paste your API token from [Ace Data Cloud Platform](https://platform.acedata.cloud)
-5. Start using MCP tools in **Copilot Chat** — e.g., "Generate a jazz song about coding"
-
-## Available Tools
-
-<details>
-<summary><strong>Suno (21 tools)</strong> — AI Music Generation</summary>
-
-- `suno_generate_music` — Generate music from a text description
-- `suno_generate_custom_music` — Generate with custom lyrics and style
-- `suno_extend_music` — Extend an existing song
-- `suno_cover_music` — Create a cover version
-- `suno_concat_music` — Concatenate music clips
-- `suno_generate_with_persona` — Generate with a specific voice/persona
-- `suno_remaster_music` — Remaster audio quality
-- `suno_stems_music` — Separate stems (vocals, instruments)
-- `suno_replace_section` — Replace a section of a song
-- `suno_upload_extend` — Upload audio and extend
-- `suno_upload_cover` — Upload audio and create cover
-- `suno_get_mp4` — Get MP4 video of the song
-- `suno_get_timing` — Get timing/lyric sync data
-- `suno_extract_vocals` — Extract vocals from a song
-- `suno_get_wav` — Get WAV format
-- `suno_get_midi` — Get MIDI file
-- `suno_optimize_style` — Optimize style prompt
-- `suno_mashup_lyrics` — Mashup lyrics from multiple songs
-- `suno_upload_audio` — Upload custom audio
-- `suno_generate_lyrics` — Generate lyrics
-- `suno_create_persona` — Create a voice persona
-
-</details>
-
-<details>
-<summary><strong>Midjourney (15 tools)</strong> — AI Image Generation</summary>
-
-- `midjourney_imagine` — Generate images from text prompt
-- `midjourney_transform` — Transform/upscale/vary images
-- `midjourney_blend` — Blend multiple images
-- `midjourney_with_reference` — Generate with reference image
-- `midjourney_edit` — Edit regions of an image
-- `midjourney_describe` — Describe an image
-- `midjourney_translate` — Translate prompt to English
-- `midjourney_get_seed` — Get the seed of a generation
-- `midjourney_generate_video` — Generate video from image
-- `midjourney_extend_video` — Extend video duration
-- `midjourney_get_task` — Get task status
-- `midjourney_get_tasks_batch` — Get multiple task statuses
-- `midjourney_list_actions` — List available actions
-- `midjourney_get_prompt_guide` — Get prompt writing guide
-- `midjourney_list_transform_actions` — List transform actions
-
-</details>
-
-<details>
-<summary><strong>Flux (6 tools)</strong> — AI Image Generation</summary>
-
-- `flux_generate_image` — Generate images with Flux models
-- `flux_edit_image` — Edit images
-- `flux_get_task` — Get task status
-- `flux_get_tasks_batch` — Get batch task statuses
-- `flux_list_models` — List available models
-- `flux_list_actions` — List available actions
-
-</details>
-
-<details>
-<summary><strong>Seedream (6 tools)</strong> — ByteDance Image Generation</summary>
-
-- `seedream_generate_image` — Generate images
-- `seedream_edit_image` — Edit images
-- `seedream_get_task` — Get task status
-- `seedream_get_tasks_batch` — Get batch task statuses
-- `seedream_list_models` — List models
-- `seedream_list_sizes` — List supported sizes
-
-</details>
-
-<details>
-<summary><strong>NanoBanana (4 tools)</strong> — Gemini Image Generation</summary>
-
-- `nanobanana_generate_image` — Generate images
-- `nanobanana_edit_image` — Edit images
-- `nanobanana_get_task` — Get task status
-- `nanobanana_get_tasks_batch` — Get batch task statuses
-
-</details>
-
-<details>
-<summary><strong>Luma (8 tools)</strong> — AI Video Generation</summary>
-
-- `luma_generate_video` — Generate video from text
-- `luma_generate_video_from_image` — Generate video from image
-- `luma_extend_video` — Extend existing video
-- `luma_extend_video_from_url` — Extend video from URL
-- `luma_get_task` — Get task status
-- `luma_get_tasks_batch` — Get batch task statuses
-- `luma_list_aspect_ratios` — List aspect ratios
-- `luma_list_actions` — List available actions
-
-</details>
-
-<details>
-<summary><strong>Sora (10 tools)</strong> — OpenAI Video Generation</summary>
-
-- `sora_generate_video` — Generate video from text
-- `sora_generate_video_from_image` — Generate from image
-- `sora_generate_video_with_character` — Generate with character reference
-- `sora_generate_video_async` — Async generation
-- `sora_generate_video_v2` — V2 generation
-- `sora_generate_video_v2_async` — V2 async generation
-- `sora_get_task` — Get task status
-- `sora_get_tasks_batch` — Get batch task statuses
-- `sora_list_models` — List models
-- `sora_list_actions` — List actions
-
-</details>
-
-<details>
-<summary><strong>Veo (8 tools)</strong> — Google Video Generation</summary>
-
-- `veo_text_to_video` — Generate video from text
-- `veo_image_to_video` — Generate video from image
-- `veo_get_1080p` — Get 1080p version
-- `veo_get_task` — Get task status
-- `veo_get_tasks_batch` — Get batch task statuses
-- `veo_list_models` — List models
-- `veo_list_actions` — List actions
-- `veo_get_prompt_guide` — Get prompt guide
-
-</details>
-
-<details>
-<summary><strong>Seedance (7 tools)</strong> — ByteDance Video Generation</summary>
-
-- `seedance_generate_video` — Generate video from text
-- `seedance_generate_video_from_image` — Generate from image
-- `seedance_get_task` — Get task status
-- `seedance_get_tasks_batch` — Get batch task statuses
-- `seedance_list_models` — List models
-- `seedance_list_resolutions` — List supported resolutions
-- `seedance_list_actions` — List actions
-
-</details>
-
-<details>
-<summary><strong>SERP (11 tools)</strong> — Google Search</summary>
-
-- `serp_google_search` — Web search
-- `serp_google_images` — Image search
-- `serp_google_news` — News search
-- `serp_google_videos` — Video search
-- `serp_google_places` — Places search
-- `serp_google_maps` — Maps search
-- `serp_list_search_types` — List search types
-- `serp_list_countries` — List supported countries
-- `serp_list_languages` — List languages
-- `serp_list_time_ranges` — List time ranges
-- `serp_get_usage_guide` — Usage guide
-
-</details>
-
-<details>
-<summary><strong>ShortURL (4 tools)</strong> — URL Shortening</summary>
-
-- `shorturl_create` — Create a short URL
-- `shorturl_batch_create` — Batch create short URLs
-- `shorturl_get_usage_guide` — Usage guide
-- `shorturl_get_api_info` — API info
-
-</details>
-
-## Example Usage in Copilot Chat
-
-```
-@workspace Generate a rock song about open source software
-
-@workspace Create a Midjourney image of a futuristic city at sunset
-
-@workspace Generate a 5-second video of ocean waves with Luma
-
-@workspace Search Google for "latest VS Code release notes"
-
-@workspace Shorten this URL: https://platform.acedata.cloud/services
+```bash
+npm ci
+npm test
+npm run check
+npm run package
 ```
 
-## Links
+The source of truth is [`MCPs/vscode-bundle`](https://github.com/AceDataCloud/MCPs/tree/main/vscode-bundle).
+This repository receives reviewed source changes through the MCPs sync pipeline;
+do not edit its generated service list or source independently.
 
-- [Ace Data Cloud Platform](https://platform.acedata.cloud) — Get your API token
-- [API Documentation](https://docs.acedata.cloud) — Full API reference
-- [GitHub](https://github.com/AceDataCloud/VSCodeMCP) — Source code & issues
+In MCPs, opt verified services into `scripts/mcp_catalog.json` using
+`vscode_bundle`. Endpoints and credential kinds come from each service's
+`server.json`. Run `python3 scripts/build_vscode_bundle.py` after catalog changes;
+CI checks the generated list, package settings and README together. A retired
+service is automatically omitted. Publish runs tests, packages a VSIX and reads
+back the public Marketplace version.
 
-## License
+[API documentation](https://platform.acedata.cloud/documents) ·
+[MCP server source](https://github.com/AceDataCloud/MCPs) ·
+[Issues](https://github.com/AceDataCloud/VSCodeMCP/issues)
 
-MIT
+MIT licensed.
