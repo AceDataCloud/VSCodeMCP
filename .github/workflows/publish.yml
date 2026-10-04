@@ -1,55 +1,34 @@
-name: Publish VS Code Extension
+name: Retire legacy VS Code bundle
 
 on:
-  push:
-    branches: [main]
-  repository_dispatch:
-    types: [mcp-updated]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: retire-legacy-vscode-bundle
+  cancel-in-progress: false
+
 jobs:
-  publish:
+  unpublish:
+    if: github.repository == 'AceDataCloud/VSCodeMCP'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
-
-      - name: Install vsce
-        run: npm install -g @vscode/vsce
-
-      - name: Generate version
+          node-version: 22
+      - name: Remove the retired bundle from VS Code Marketplace
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
         run: |
-          # VS Code requires SemVer (3 parts): MAJOR.MINOR.PATCH
-          # We use: YEAR.MMDD.BUILD (e.g., 2026.318.123401)
-          # BUILD uses GitHub run metadata to avoid collisions on retries/concurrent runs.
-          YEAR=$(date +'%Y')
-          MMDD=$(date +'%-m%d')
-          BUILD=$((GITHUB_RUN_NUMBER * 100 + GITHUB_RUN_ATTEMPT))
-          VERSION="${YEAR}.${MMDD}.${BUILD}"
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "Publishing version $VERSION"
-
-          # Update package.json
-          node -e "
-            const fs = require('fs');
-            const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-            pkg.version = '$VERSION';
-            fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
-          "
-
-      - name: Package extension
-        run: vsce package --no-git-tag-version
-
-      - name: Publish to VS Code Marketplace
-        run: vsce publish --no-git-tag-version -p ${{ secrets.VSCE_PAT }}
-
-      - name: Publish to Open VSX Registry
+          test -n "$VSCE_PAT"
+          npx --yes @vscode/vsce unpublish acedatacloud.acedatacloud-mcp --force
+      - name: Remove the legacy Open VSX listing when configured
         if: vars.OVSX_ENABLED == 'true'
         env:
           OVSX_PAT: ${{ secrets.OVSX_PAT }}
         run: |
-          npm install -g ovsx
-          ovsx publish *.vsix -p "$OVSX_PAT"
+          test -n "$OVSX_PAT"
+          npx --yes ovsx unpublish acedatacloud.acedatacloud-mcp --pat "$OVSX_PAT"
